@@ -30,6 +30,16 @@ app.get('/', (req, res) => {
     })
 });
 
+const restaurantRoutes = require('./routes/restaurant.router');
+
+app.use('/api/restaurant', restaurantRoutes);
+app.get('/', (req, res) => {
+    res.json({
+        estado: true,
+        mensaje: 'funciona!'
+    })
+});
+
 // iniciar server
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

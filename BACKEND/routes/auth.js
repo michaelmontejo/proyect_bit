@@ -1,15 +1,16 @@
 const router = require('express').Router();
-const User = require('../models/User');
+const User = require('../models/user.model');
 const Joi = require('@hapi/joi')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { id } = require('@hapi/joi/lib/base');
 
 const schemaRegister = Joi.object({
     name: Joi.string().min(4).max(255).required(),
     email: Joi.string().min(6).max(1024).required().email(),
     password: Joi.string().min(6).max(50).required(),
     apellido:Joi.string().min(4).max(255).required(),
-    id:Joi.number().min(1).max(99999999999).required(),
+    identificacion:Joi.number().min(1).max(99999999999).required(),
     celular:Joi.number().min(1).max(99999999999).required(),
 })
 
@@ -76,7 +77,10 @@ router.post('/register', async (req, res) => {
     const user = new User({
         name: req.body.name,
         email: req.body.email,
-        password: password
+        password: password,
+        apellido:req.body.apellido,
+        identificacion:req.body.id,
+        celular:req.body.celular
     });
     try {
         const savedUser = await user.save();
